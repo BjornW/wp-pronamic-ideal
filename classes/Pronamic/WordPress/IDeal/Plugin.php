@@ -65,6 +65,7 @@ class Pronamic_WordPress_IDeal_Plugin {
 			// Pronamic_AppThemes_IDeal_AddOn::bootstrap();
 			Pronamic_S2Member_IDeal_AddOn::bootstrap();
 			Pronamic_Membership_IDeal_AddOn::bootstrap();
+			Pronamic_TheCartPress_IDeal_AddOn::bootstrap();
 		}
 
 		// Admin
