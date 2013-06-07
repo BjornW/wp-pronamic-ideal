@@ -15,14 +15,36 @@ class Pronamic_TheCartPress_IDeal_IDealGateway extends TCP_Plugin {
 	}
 	
 	public function getCheckoutMethodLabel( $instance, $shippingCountry = '', $shoppingCart = false ) {
+		$data = tcp_get_payment_plugin_data( 'Pronamic_TheCartPress_IDeal_IDealGateway', $instance );
 		
+		if ( isset( $data['title'] ) ) {
+			$title = $data['title'];
+		} else {
+			$title = $this->getTitle();
+		}
+		
+		return $title;
 	}
 	
-	public function showEditFields( $data, $instance = 0 ) {
+	public function showEditFields( $data ) {
 		?>
 		<tr valign="top">
-			
+			<th scope="row">
+				<label for="configuration_id"><?php _e( 'Configuration', 'pronamic_ideal' ); ?></label>
+			</th>
+			<td>
+				<select name="configuration_id">
+					<?php foreach ( Pronamic_WordPress_IDeal_IDeal::get_configurations_select_options() as $configuration_id => $configuration ) : ?>
+					<option value="<?php echo $configuration_id; ?>" <?php selected( $data['configuration_id'], $configuration_id ); ?>><?php echo $configuration; ?></option>
+					<?php endforeach; ?>
+				</select>
+			</td>
 		</tr>
 		<?php
+	}
+	
+	public function saveEditFields( $data, $instance = 0 ) {
+		$data['configuration_id'] = isset( $_POST['configuration_id'] ) ? $_POST['configuration_id'] : '';
+		return $data;
 	}
 }
