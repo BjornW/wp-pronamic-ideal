@@ -86,4 +86,23 @@ class Pronamic_WordPress_IDeal_Util {
 
 		return $number;
 	}
+
+	/**
+	 * Returns an absolute url to an iDEAL logo.
+	 * @return string
+	 */
+	public static function getLogo() {
+		return plugins_url( '/images/ideal-logo-pay-off-2-lines.png', Pronamic_WordPress_IDeal_Plugin::$file );
+	}
+	
+	public static function getIcon( $size = 16 ) {
+		$valid_sizes = array(
+			16,
+			24,
+			32
+		);
+		
+		if ( in_array( $size, $valid_sizes ) )
+			return plugins_url( "/images/icon-{$size}x{$size}.png", Pronamic_WordPress_IDeal_Plugin::$file );
+	}
 }
