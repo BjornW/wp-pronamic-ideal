@@ -27,6 +27,9 @@ class Pronamic_TheCartPress_IDeal_IDealGateway extends TCP_Plugin {
 	}
 	
 	public function showEditFields( $data ) {
+		if ( ! isset( $data['configuration_id'] ) )
+			$data['configuration_id'] = null;
+		
 		?>
 		<tr valign="top">
 			<th scope="row">
