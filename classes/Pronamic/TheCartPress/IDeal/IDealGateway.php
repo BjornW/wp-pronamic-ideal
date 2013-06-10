@@ -81,7 +81,7 @@ class Pronamic_TheCartPress_IDeal_IDealGateway extends TCP_Plugin {
 		
 		if ( $gateway ) {
 			Pronamic_WordPress_IDeal_IDeal::start( $configuration, $gateway, $ideal_data );
-			
+		
 			?>
 		
 			<?php if ( $gateway->is_html_form() ) : ?>
@@ -89,7 +89,10 @@ class Pronamic_TheCartPress_IDeal_IDealGateway extends TCP_Plugin {
 			<?php endif; ?>
 		
 			<?php if ( $gateway->is_http_redirect() ) : ?>
-				<a href="<?php echo $gateway->get_action_url(); ?>"><?php _e( 'Pay', 'pronamic_ideal' ); ?></a>
+				<button style="font-size:16px;" href="<?php echo $gateway->get_action_url(); ?>">
+					<img src="<?php echo Pronamic_WordPress_IDeal_Util::getIcon( 16 ); ?>"/>
+					 <?php _e( 'Pay with iDEAL', 'pronamic_ideal' ); ?>
+				</button>
 			<?php endif; ?>
 			<?php
 		}
