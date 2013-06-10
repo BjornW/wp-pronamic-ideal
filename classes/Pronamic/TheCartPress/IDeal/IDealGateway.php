@@ -15,6 +15,7 @@ class Pronamic_TheCartPress_IDeal_IDealGateway extends TCP_Plugin {
 	}
 	
 	public function getCheckoutMethodLabel( $instance, $shippingCountry = '', $shoppingCart = false ) {
+
 		$data = tcp_get_payment_plugin_data( get_class( $this ), $instance );
 		
 		if ( isset( $data['title'] ) ) {
@@ -22,6 +23,28 @@ class Pronamic_TheCartPress_IDeal_IDealGateway extends TCP_Plugin {
 		} else {
 			$title = $this->getTitle();
 		}
+		
+		if ( false === $shoppingCart || ( isset( $_POST['tcp_continue'] ) && $_POST['tcp_continue'] === 'Purchase' ) )
+			return $title;
+		
+		// Get the configuration ID
+		$configuration_id = null;
+		
+		// Check the configuration ID is set
+		if ( isset( $data['configuration_id'] ) )
+			$configuration_id = $data['configuration_id'];
+		
+		// DOnt show form if no configuration id
+		if ( ! $configuration_id )
+			return;
+
+		// Get the entire configuration
+		$configuration = Pronamic_WordPress_IDeal_ConfigurationsRepository::getConfigurationById( $configuration_id );
+		
+		// Get the selected gateway for this configuration
+		$gateway = Pronamic_WordPress_IDeal_IDeal::get_gateway( $configuration );
+		
+		$title = $title . '<br/>' . $gateway->get_input_html(); 
 		
 		return $title;
 	}
@@ -66,13 +89,13 @@ class Pronamic_TheCartPress_IDeal_IDealGateway extends TCP_Plugin {
 		// DOnt show form if no configuration id
 		if ( ! $configuration_id )
 			return;
-
+		
 		// Get the order
 		$order = Orders::get( $order_id );
 		
 		// Build the data
 		$ideal_data = new Pronamic_TheCartPress_IDeal_IDealDataProxy( $order );
-		
+
 		// Get the entire configuration
 		$configuration = Pronamic_WordPress_IDeal_ConfigurationsRepository::getConfigurationById( $configuration_id );
 		
@@ -81,20 +104,7 @@ class Pronamic_TheCartPress_IDeal_IDealGateway extends TCP_Plugin {
 		
 		if ( $gateway ) {
 			Pronamic_WordPress_IDeal_IDeal::start( $configuration, $gateway, $ideal_data );
-		
-			?>
-		
-			<?php if ( $gateway->is_html_form() ) : ?>
-				<?php $gateway->redirect_via_html(); ?>
-			<?php endif; ?>
-		
-			<?php if ( $gateway->is_http_redirect() ) : ?>
-				<button style="font-size:16px;" href="<?php echo $gateway->get_action_url(); ?>">
-					<img src="<?php echo Pronamic_WordPress_IDeal_Util::getIcon( 16 ); ?>"/>
-					 <?php _e( 'Pay with iDEAL', 'pronamic_ideal' ); ?>
-				</button>
-			<?php endif; ?>
-			<?php
+			echo $gateway->get_form_html();
 		}
 	}
 }
