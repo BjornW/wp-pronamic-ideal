@@ -65,7 +65,7 @@ class Pronamic_TheCartPress_IDeal_IDealDataProxy extends Pronamic_WordPress_IDea
 		$return_url = add_query_arg( array(
 			'id' => $this->order->order_id,
 			'key' => $this->get_entrance_code()
-		), home_url() );
+		), tcp_get_the_checkout_ok_url() );
 		
 		return $return_url;
 	}
