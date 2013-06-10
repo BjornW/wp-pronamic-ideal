@@ -82,7 +82,16 @@ class Pronamic_TheCartPress_IDeal_IDealGateway extends TCP_Plugin {
 		if ( $gateway ) {
 			Pronamic_WordPress_IDeal_IDeal::start( $configuration, $gateway, $ideal_data );
 			
-			$gateway->redirect();
+			?>
+		
+			<?php if ( $gateway->is_html_form() ) : ?>
+				<?php $gateway->redirect_via_html(); ?>
+			<?php endif; ?>
+		
+			<?php if ( is_http_redirect() ) : ?>
+				<a href="<?php echo $gateway->get_action_url(); ?>"><?php _e( 'Pay', 'pronamic_ideal' ); ?></a>
+			<?php endif; ?>
+			<?php
 		}
 	}
 }
