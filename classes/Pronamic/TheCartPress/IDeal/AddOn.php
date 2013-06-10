@@ -10,13 +10,18 @@
  */
 class Pronamic_TheCartPress_IDeal_AddOn extends Pronamic_WordPress_IDeal_Extension {
 	
-	public static function bootstrap() {
-		
-		// Register the iDeal Plugin [no action required]
-		tcp_register_payment_plugin( 'Pronamic_TheCartPress_IDeal_IDealGateway' );
-		
-		add_action( 'pronamic_ideal_status_update', array( __CLASS__, 'status_update' ), 10, 2 );
-		add_filter( 'pronamic_ideal_source_column_thecartpress', array( __CLASS__, 'source_column' ), 10, 2 );
+	public static function bootstrap() {		
+		add_action( 'plugins_loaded', array( __CLASS__, 'load' ) );
+	}
+	
+	public static function load() {
+		if ( self::is_supported() ) {
+			// Register the iDeal Plugin [no action required]
+			tcp_register_payment_plugin( 'Pronamic_TheCartPress_IDeal_IDealGateway' );
+			
+			add_action( 'pronamic_ideal_status_update', array( __CLASS__, 'status_update' ), 10, 2 );
+			add_filter( 'pronamic_ideal_source_column_thecartpress', array( __CLASS__, 'source_column' ), 10, 2 );
+		}
 	}
 	
 	public static function is_supported() {
