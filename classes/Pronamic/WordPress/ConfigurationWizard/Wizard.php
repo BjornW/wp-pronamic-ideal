@@ -56,8 +56,6 @@ class Pronamic_WordPress_ConfigurationWizard_Wizard {
 	public function __construct( $unique_name, $title ) {
 		$this->unique_name = $unique_name;
 		$this->title = $title;
-		
-		add_action( 'admin_init', array( $this, 'listen' ) );
 	}
 	
 	/**
@@ -126,14 +124,6 @@ class Pronamic_WordPress_ConfigurationWizard_Wizard {
 	}
 	
 	/**
-	 * Listens to the get variables for knowledge about which step the user
-	 * is currently on.  
-	 */
-	public function listen() {
-		
-	}
-	
-	/**
 	 * Renders the wizard.  Can also return the wizard from the output
 	 * buffer if true is passed into the parameter.
 	 * 
@@ -165,7 +155,7 @@ class Pronamic_WordPress_ConfigurationWizard_Wizard {
 			</div>
 			<div class="pronamic_configuration_wizard_next_step">
 				<?php if ( $this->has_previous_step() ) : ?>
-				<a href="<?php echo add_query_arg( array( 'step' => $this->get_previous_step() ), $this->get_current_url() ); ?>">Previous Step</a>
+					<a href="<?php echo add_query_arg( array( 'step' => $this->get_previous_step() ), $this->get_current_url() ); ?>">Previous Step</a>
 				<?php endif; ?>
 				<?php if ( $this->has_next_step() ) : ?>
 					<a href="<?php echo add_query_arg( array( 'step' => $this->get_next_step() ), $this->get_current_url() ); ?>">Next Step</a>
