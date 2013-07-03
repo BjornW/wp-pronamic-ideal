@@ -404,6 +404,17 @@ class Pronamic_WordPress_IDeal_Admin {
 			'pronamic_ideal_branding', 
 			array( __CLASS__, 'page_branding' )
 		);
+		
+		add_submenu_page(
+			'pronamic_ideal',
+			__( 'Wizard', 'pronamic_ideal' ),
+			__( 'Wizard', 'pronamic_ideal' ),
+			'pronamic_ideal_branding',
+			'pronamic_ideal_wizard',
+			array( __CLASS__, 'page_wizard' )
+		);
+		
+		
 
 		global $submenu;
 
@@ -529,6 +540,12 @@ class Pronamic_WordPress_IDeal_Admin {
 
 	public static function page_branding() {
 		self::renderView( 'branding' );
+	}
+	
+	public static function page_wizard() {
+		do_action( 'register_wizard' );
+		
+		self::renderView( 'wizard' );
 	}
 
 	public static function pagePayments() {
