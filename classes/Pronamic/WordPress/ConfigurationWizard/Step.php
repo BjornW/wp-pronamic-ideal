@@ -39,6 +39,16 @@ class Pronamic_WordPress_ConfigurationWizard_Step {
 	}
 	
 	/**
+	 * Returns the title set for this Wizard step.
+	 * 
+	 * @access public
+	 * @return string
+	 */
+	public function get_title() {
+		return $this->title;
+	}
+	
+	/**
 	 * Registers a setting to be used in this specific step.  Requires 
 	 * to be an instance of Pronamic_WordPress_ConfigurationWizard_Field_Field
 	 * 
