@@ -114,6 +114,8 @@ class Pronamic_WordPress_IDeal_Plugin {
 
 		// Show license message if the license is not valid
 		add_action( 'admin_notices', array( __CLASS__, 'admin_notices' ) );
+		
+		add_action( 'register_wizard', array( __CLASS__, 'register_wizards' ) );
 	}
 
 	//////////////////////////////////////////////////
@@ -624,5 +626,19 @@ class Pronamic_WordPress_IDeal_Plugin {
 			// Update version
 			update_option( 'pronamic_ideal_version', self::VERSION );
 		}
+	}
+	
+	public static function register_wizards() {
+		
+		$ideal_basic_wizard = new Pronamic_WordPress_ConfigurationWizard_Wizard( 'idealbasic', 'iDeal Basic' );
+		
+		$basic_configuration_step = $ideal_basic_wizard->add_step( 'Basic Configuration' );
+		$basic_configuration_step->add_setting( new Pronamic_WordPress_ConfigurationWizard_Field_Text( __( 'Starting Field', 'pronamic_ideal' ), 'example_setting_field' ) );
+		
+		$advanced_configuration_step = $ideal_basic_wizard->add_step( 'Advanced Configuration' );
+		$advanced_configuration_step->add_setting( new Pronamic_WordPress_ConfigurationWizard_Field_Text( __( 'Second field', 'pronamic_ideal' ), 'second_field' ) );
+		
+		Pronamic_WordPress_ConfigurationWizard_Factory::register_wizard( $ideal_basic_wizard );
+		
 	}
 }
