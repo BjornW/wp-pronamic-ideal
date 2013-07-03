@@ -19,7 +19,7 @@ class Pronamic_WordPress_ConfigurationWizard_Wizard {
 	 * @var string
 	 */
 	private $unique_name;
-	
+
 	/**
 	 * Holds the clean formatted string for 
 	 * this instance of the wizard
@@ -27,14 +27,14 @@ class Pronamic_WordPress_ConfigurationWizard_Wizard {
 	 * @var string
 	 */
 	private $title;
-	
+
 	/**
 	 * Holds all the steps registered for this wizard
 	 * 
 	 * @var array Pronamic_WordPress_ConfigurationWizard_Step
 	 */
-	private $steps = array();
-	
+	private $steps = array( );
+
 	/**
 	 * Holds the current step the wizard is at
 	 * 
@@ -56,8 +56,10 @@ class Pronamic_WordPress_ConfigurationWizard_Wizard {
 	public function __construct( $unique_name, $title ) {
 		$this->unique_name = $unique_name;
 		$this->title = $title;
+		
+		add_action( 'admin_init', array( $this, 'listen' ) );
 	}
-	
+
 	/**
 	 * Returns the unique name
 	 * 
@@ -67,7 +69,7 @@ class Pronamic_WordPress_ConfigurationWizard_Wizard {
 	public function get_unique_name() {
 		return $this->unique_name;
 	}
-	
+
 	/**
 	 * Returns the clean title
 	 * 
@@ -91,10 +93,10 @@ class Pronamic_WordPress_ConfigurationWizard_Wizard {
 	 */
 	public function add_step( $unique_name ) {
 		$total_steps = $this->get_total_steps();
-		
+
 		// Make a new instance of a Wizard_Step and stores with the passed unique name.
 		$this->steps[$total_steps] = new Pronamic_WordPress_ConfigurationWizard_Step( $unique_name );
-		
+
 		// Returns the associated instance
 		return $this->steps[$total_steps];
 	}
@@ -123,6 +125,10 @@ class Pronamic_WordPress_ConfigurationWizard_Wizard {
 		return $this->steps;
 	}
 	
+	public function listen() {
+		
+	}
+
 	/**
 	 * Renders the wizard.  Can also return the wizard from the output
 	 * buffer if true is passed into the parameter.
@@ -133,40 +139,39 @@ class Pronamic_WordPress_ConfigurationWizard_Wizard {
 	public function show( $return = false ) {
 		// Get the current step int
 		$current_step = $this->get_current_step();
-		
 		?>
-		
-		<div class="pronamic_configuration_wizard_holder">
-			<ul class="pronamic_configuration_wizard_steps">
-				<?php foreach ( $this->get_all_steps() as $step ) : ?>
-				<li><?php echo $step->get_title(); ?></li>
-				<?php endforeach; ?>
-			</ul>
-			
-			<div class="pronamic_configuration_wizard_step_settings">
-				<?php foreach ( $this->steps[$current_step]->all_settings() as $setting ) : ?>
-					<div class="pronamic_configuration_wizard_step_setting">
-						<label>
-							<?php echo $setting->get_label_name(); ?>
-							<?php echo $setting->display(); ?>
-						</label>
-					</div>
-				<?php endforeach ;?>
+		<form method="post">
+			<div class="pronamic_configuration_wizard_holder">
+				<ul class="pronamic_configuration_wizard_steps">
+					<?php foreach ( $this->get_all_steps() as $step ) : ?>
+						<li><?php echo $step->get_title(); ?></li>
+					<?php endforeach; ?>
+				</ul>
+
+				<div class="pronamic_configuration_wizard_step_settings">
+					<?php foreach ( $this->steps[$current_step]->all_settings() as $setting ) : ?>
+						<div class="pronamic_configuration_wizard_step_setting">
+							<label>
+								<?php echo $setting->get_label_name(); ?>
+								<?php echo $setting->display(); ?>
+							</label>
+						</div>
+					<?php endforeach; ?>
+				</div>
+
+				<div class="pronamic_configuration_wizard_navigation">
+					<?php if ( $this->has_previous_step() ) : ?>
+						<a class="pronamic_configuration_wizard_previous_step_button" href="<?php echo add_query_arg( array( 'step' => $this->get_previous_step() ), $this->get_current_url() ); ?>"><?php _e( 'Previous Step', 'pronamic_ideal' ); ?></a>
+					<?php endif; ?>
+					<?php if ( $this->has_next_step() ) : ?>
+						<a class="pronamic_configuration_wizard_next_step_button" href="<?php echo add_query_arg( array( 'step' => $this->get_next_step() ), $this->get_current_url() ); ?>"><?php _e( 'Next Step', 'pronamic_ideal' ); ?></a>
+					<?php endif; ?>
+				</div>
 			</div>
-			
-			<div class="pronamic_configuration_wizard_navigation">
-				<?php if ( $this->has_previous_step() ) : ?>
-					<a class="pronamic_configuration_wizard_previous_step_button" href="<?php echo add_query_arg( array( 'step' => $this->get_previous_step() ), $this->get_current_url() ); ?>"><?php _e( 'Previous Step', 'pronamic_ideal' ); ?></a>
-				<?php endif; ?>
-				<?php if ( $this->has_next_step() ) : ?>
-					<a class="pronamic_configuration_wizard_next_step_button" href="<?php echo add_query_arg( array( 'step' => $this->get_next_step() ), $this->get_current_url() ); ?>"><?php _e( 'Next Step', 'pronamic_ideal' ); ?></a>
-				<?php endif; ?>
-			</div>
-		</div>
-		
+		</form>
 		<?php
 	}
-	
+
 	/**
 	 * Returns the current step based off a query variable 'step'.
 	 * 
@@ -176,12 +181,12 @@ class Pronamic_WordPress_ConfigurationWizard_Wizard {
 	 * @return int
 	 */
 	public function get_current_step() {
-		if ( ! isset( $this->current_step ) )
+		if ( !isset( $this->current_step ) )
 			$this->current_step = ( filter_has_var( INPUT_GET, 'step' ) ? filter_input( INPUT_GET, 'step', FILTER_VALIDATE_INT ) : 0 );
-			
+
 		return $this->current_step;
 	}
-	
+
 	/**
 	 * Returns a bool if this wizard has another step
 	 * after the current one.
@@ -191,12 +196,12 @@ class Pronamic_WordPress_ConfigurationWizard_Wizard {
 	 */
 	public function has_next_step() {
 		$current_step = $this->get_current_step();
-		
+
 		$next_step = ++$current_step;
-		
+
 		return ( array_key_exists( $next_step, $this->steps ) );
 	}
-	
+
 	/**
 	 * Returns the next step number.  Relates the array key for all
 	 * steps registered.
@@ -206,9 +211,9 @@ class Pronamic_WordPress_ConfigurationWizard_Wizard {
 	 */
 	public function get_next_step() {
 		$current_step = $this->get_current_step();
-		return ++$current_step;
+		return++$current_step;
 	}
-	
+
 	/**
 	 * Returns a bool if this wizard has a previous step
 	 * before the current one.
@@ -218,12 +223,12 @@ class Pronamic_WordPress_ConfigurationWizard_Wizard {
 	 */
 	public function has_previous_step() {
 		$current_step = $this->get_current_step();
-		
+
 		$previous_step = --$current_step;
-		
+
 		return ( array_key_exists( $previous_step, $this->steps ) );
 	}
-	
+
 	/**
 	 * Returns the previous step number. Relates to the array key for all
 	 * steps registered.
@@ -233,9 +238,9 @@ class Pronamic_WordPress_ConfigurationWizard_Wizard {
 	 */
 	public function get_previous_step() {
 		$current_step = $this->get_current_step();
-		return --$current_step;
+		return--$current_step;
 	}
-	
+
 	/**
 	 * Returns the total number of steps registered with this wizard.
 	 * 
@@ -245,7 +250,7 @@ class Pronamic_WordPress_ConfigurationWizard_Wizard {
 	public function get_total_steps() {
 		return count( $this->steps );
 	}
-	
+
 	/**
 	 * Returns the current url the form is on. Perhaps a better
 	 * solution is needed for this.
@@ -255,7 +260,7 @@ class Pronamic_WordPress_ConfigurationWizard_Wizard {
 	 */
 	public function get_current_url() {
 		$host = ( filter_has_var( INPUT_SERVER, 'HTTPS' ) ? 'https://' : 'http://' );
-		
+
 		return $host . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 	}
 
