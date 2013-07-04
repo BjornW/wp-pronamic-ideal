@@ -89,6 +89,11 @@ class Pronamic_WordPress_IDeal_Admin {
 	 * Enqueue admin scripts
 	 */
 	public static function enqueue_scripts( $hook ) {
+		// Registers the configuration wizard script.
+		wp_register_script( 'ConfigurationWizard', plugins_url( 'admin/js/ConfigurationWizard.js', Pronamic_WordPress_IDeal_Plugin::$file ), array( 'jquery' ) );
+		wp_register_style( 'ConfigurationWizard', plugins_url( 'admin/css/ConfigurationWizard.css', Pronamic_WordPress_IDeal_Plugin::$file ) );
+		
+		
 		$is_pronamic_ideal = strpos( $hook, 'pronamic_ideal' ) !== false;
 		$edit_gravity_forms = ( strpos( $hook, 'page_gf_new_form' ) ) !== false || ( strpos( $hook, 'page_gf_edit_forms' ) !== false );
 

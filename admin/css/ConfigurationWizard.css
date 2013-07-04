@@ -1,0 +1,7 @@
+.pronamic_configuration_wizard_step {
+	display:none;
+}
+
+.pronamic_configuration_wizard_current_step {
+	display:block;
+}

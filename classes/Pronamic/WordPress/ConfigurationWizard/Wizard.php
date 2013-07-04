@@ -137,8 +137,10 @@ class Pronamic_WordPress_ConfigurationWizard_Wizard {
 	 * @param bool $return
 	 */
 	public function show( $return = false ) {
-		// Get the current step int
-		$current_step = $this->get_current_step();
+		// Load the configuration wizard script
+		wp_enqueue_script( 'ConfigurationWizard' );
+		wp_enqueue_style( 'ConfigurationWizard' );
+		
 		?>
 		<form method="post">
 			<div class="pronamic_configuration_wizard_holder">
@@ -147,24 +149,31 @@ class Pronamic_WordPress_ConfigurationWizard_Wizard {
 						<li><?php echo $step->get_title(); ?></li>
 					<?php endforeach; ?>
 				</ul>
+				
+				<?php foreach ( $this->get_all_steps() as $step_id => $step ) : ?>
+				
+				<div class="pronamic_configuration_wizard_step <?php if ( 0 == $step_id ) : ?> pronamic_configuration_wizard_current_step <?php endif; ?>" data-step="<?php echo $step_id; ?>">
+						<h2 class="pronamic_configuration_wizard_step_title"><?php echo $step->get_title(); ?></h2>
 
-				<div class="pronamic_configuration_wizard_step_settings">
-					<?php foreach ( $this->steps[$current_step]->all_settings() as $setting ) : ?>
-						<div class="pronamic_configuration_wizard_step_setting">
-							<label>
-								<?php echo $setting->get_label_name(); ?>
-								<?php echo $setting->display(); ?>
-							</label>
-						</div>
-					<?php endforeach; ?>
-				</div>
+						<?php foreach ( $step->all_settings() as $setting ) : ?>
+							<div class="pronamic_configuration_wizard_step_setting">
+								<label>
+									<?php echo $setting->get_label_name(); ?>
+									<?php echo $setting->display(); ?>
+								</label>
+							</div>
+						<?php endforeach; ?>
+
+					</div>
+					
+				<?php endforeach; ?>
 
 				<div class="pronamic_configuration_wizard_navigation">
 					<?php if ( $this->has_previous_step() ) : ?>
-						<a class="pronamic_configuration_wizard_previous_step_button" href="<?php echo add_query_arg( array( 'step' => $this->get_previous_step() ), $this->get_current_url() ); ?>"><?php _e( 'Previous Step', 'pronamic_ideal' ); ?></a>
+						<a class="pronamic_configuration_wizard_previous_step_button" href="#"><?php _e( 'Previous Step', 'pronamic_ideal' ); ?></a>
 					<?php endif; ?>
 					<?php if ( $this->has_next_step() ) : ?>
-						<a class="pronamic_configuration_wizard_next_step_button" href="<?php echo add_query_arg( array( 'step' => $this->get_next_step() ), $this->get_current_url() ); ?>"><?php _e( 'Next Step', 'pronamic_ideal' ); ?></a>
+						<a class="pronamic_configuration_wizard_next_step_button" href="#"><?php _e( 'Next Step', 'pronamic_ideal' ); ?></a>
 					<?php endif; ?>
 				</div>
 			</div>
