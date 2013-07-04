@@ -33,14 +33,7 @@ class Pronamic_WordPress_ConfigurationWizard_Wizard {
 	 * 
 	 * @var array Pronamic_WordPress_ConfigurationWizard_Step
 	 */
-	private $steps = array( );
-
-	/**
-	 * Holds the current step the wizard is at
-	 * 
-	 * @var int
-	 */
-	private $current_step;
+	private $steps = array();
 
 	/**
 	 * Pass in the unique name for this wizard. It will be used
