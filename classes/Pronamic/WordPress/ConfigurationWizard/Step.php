@@ -5,7 +5,7 @@
  * 
  * A step for the configuration wizard. Instantiating this class should not
  * be done. Instead this is used purely in the Wizard_Wizard class to return
- * that an instance of this for you to register settings with.
+ * an instance of this for you to register settings with.
  * 
  * @package ConfigurationWizard
  * @subpackage Step

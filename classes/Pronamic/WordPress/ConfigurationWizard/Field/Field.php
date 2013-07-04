@@ -49,7 +49,7 @@ abstract class Pronamic_WordPress_ConfigurationWizard_Field_Field {
 	 * @var mixed
 	 */
 	private $setting_value;
-	
+		
 	public function __construct( $label_name, $setting_name ) {
 		$this->label_name = $label_name;
 		$this->setting_name = $setting_name;

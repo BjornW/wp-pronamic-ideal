@@ -68,6 +68,8 @@ var Pronamic_ConfigurationWizard = {
         // Get the next step number
         var nextStepNumber = Pronamic_ConfigurationWizard.getNextStepNumber();
         
+        Pronamic_ConfigurationWizard.step.set(nextStepNumber);
+        
         // Hide the current step
         Pronamic_ConfigurationWizard.getCurrentStepDOM()
             .removeClass('pronamic_configuration_wizard_current_step');
@@ -91,6 +93,8 @@ var Pronamic_ConfigurationWizard = {
         
         // Get the previous step number
         var previousStepNumber = Pronamic_ConfigurationWizard.getPreviousStepNumber();
+        
+        Pronamic_ConfigurationWizard.step.set(previousStepNumber);
         
         // Hides the current step
         Pronamic_ConfigurationWizard.getCurrentStepDOM()
@@ -140,7 +144,61 @@ var Pronamic_ConfigurationWizard = {
     , getPreviousStepNumber: function() {
         return Pronamic_ConfigurationWizard.getCurrentStepNumber() - 1;
     }
+    
+    ,step: {
+        
+        config:{
+            data:{}
+        }
+                
+        /**
+         * Adds the passed stepnumber to the stepData object.  Makes that
+         * an object.
+         * 
+         * @returns void
+         */
+        , set: function(stepNumber) {
+            if(undefined === Pronamic_ConfigurationWizard.step.config.data[stepNumber]) {
+                Pronamic_ConfigurationWizard.step.config.data[stepNumber] = {};
+            }
+            
+            Pronamic_ConfigurationWizard.config.dom.form.trigger('LoadStep'+stepNumber);
+        }
+        
+        /**
+         * Registers data on this step.  requires a unique identifier (key) and
+         * you can pass in any value.
+         * 
+         * @param string key
+         * @param mixed value
+         * @returns void
+         */
+        , registerData: function(key, value) {
+            Pronamic_ConfigurationWizard.step.config.data[Pronamic_ConfigurationWizard.getCurrentStepNumber()][key] = value;
+        }
+        
+        /**
+         * Returns the register(ed)Data with the passed key. Will look for the data
+         * in the current step but you can pass in any step number to look for the data
+         * in that steps data.
+         * 
+         * @param string key
+         * @param int(optional) stepNumber
+         * @returns mixed
+         */
+        , get: function(key, stepNumber) {
+            if(undefined === stepNumber) {
+                return Pronamic_ConfigurationWizard.step.config.data[stepNumber][key];
+            } else {
+                return Pronamic_ConfigurationWizard.step.config.data[Pronamic_ConfigurationWizard.getCurrentStepNumber()][key];
+            }
+        }
+        
+    }
 };
 
 // Load the Configuration Wizard
-jQuery(Pronamic_ConfigurationWizard.ready);
+jQuery(function() {
+    Pronamic_ConfigurationWizard.ready();
+    Pronamic_ConfigurationWizard.step.set(0);
+});

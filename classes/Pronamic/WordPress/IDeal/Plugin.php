@@ -632,11 +632,11 @@ class Pronamic_WordPress_IDeal_Plugin {
 		
 		$ideal_basic_wizard = new Pronamic_WordPress_ConfigurationWizard_Wizard( 'idealbasic', 'iDeal Basic' );
 		
-		$basic_configuration_step = $ideal_basic_wizard->add_step( 'Choose your Bank!' );
-		$basic_configuration_step->add_setting( new Pronamic_WordPress_ConfigurationWizard_Field_Variant( __( 'Gateways', 'pronamic_ideal' ), 'pronamic_ideal_variant_id' ) );
+		$bank_selection_step = $ideal_basic_wizard->add_step( 'Choose your Bank!' );
+		$bank_selection_step->add_setting( new Pronamic_WordPress_ConfigurationWizard_Field_BankImage( __( 'Gateways', 'pronamic_ideal' ), 'pronamic_ideal_variant_id' ) );
+		$bank_selection_step->add_setting( new Pronamic_WordPress_ConfigurationWizard_Field_Blank( '', __( 'Select one of the gateways above. Please make sure you have an agreement with your bank. If you are unsure of what this means please visit here.', 'pronamic_ideal' ) ) );
 		
-		$advanced_configuration_step = $ideal_basic_wizard->add_step( 'Advanced Configuration' );
-		$advanced_configuration_step->add_setting( new Pronamic_WordPress_ConfigurationWizard_Field_Text( __( 'Second field', 'pronamic_ideal' ), 'second_field' ) );
+		$bank_variation_step = $ideal_basic_wizard->add_step( 'Choose your Type!' );
 		
 		Pronamic_WordPress_ConfigurationWizard_Factory::register_wizard( $ideal_basic_wizard );
 		

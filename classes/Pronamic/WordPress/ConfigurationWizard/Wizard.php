@@ -86,7 +86,7 @@ class Pronamic_WordPress_ConfigurationWizard_Wizard {
 	 */
 	public function add_step( $unique_name ) {
 		$total_steps = $this->get_total_steps();
-
+		
 		// Make a new instance of a Wizard_Step and stores with the passed unique name.
 		$this->steps[$total_steps] = new Pronamic_WordPress_ConfigurationWizard_Step( $unique_name );
 
@@ -135,7 +135,7 @@ class Pronamic_WordPress_ConfigurationWizard_Wizard {
 		wp_enqueue_style( 'ConfigurationWizard' );
 		
 		?>
-		<form method="post">
+		<form method="post" class="pronamic_configuration_wizard_form">
 			<div class="pronamic_configuration_wizard_holder">
 				<ul class="pronamic_configuration_wizard_steps">
 					<?php foreach ( $this->get_all_steps() as $step_id => $step ) : ?>
