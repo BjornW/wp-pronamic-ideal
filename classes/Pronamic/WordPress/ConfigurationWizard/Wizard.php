@@ -152,7 +152,7 @@ class Pronamic_WordPress_ConfigurationWizard_Wizard {
 				
 				<?php foreach ( $this->get_all_steps() as $step_id => $step ) : ?>
 				
-				<div class="pronamic_configuration_wizard_step <?php if ( 0 == $step_id ) : ?> pronamic_configuration_wizard_current_step <?php endif; ?>" data-step="<?php echo $step_id; ?>">
+				<div class="pronamic_configuration_wizard_step<?php if ( 0 == $step_id ) : ?> pronamic_configuration_wizard_current_step<?php endif; ?>" data-step="<?php echo $step_id; ?>">
 						<h2 class="pronamic_configuration_wizard_step_title"><?php echo $step->get_title(); ?></h2>
 
 						<?php foreach ( $step->all_settings() as $setting ) : ?>
@@ -182,75 +182,6 @@ class Pronamic_WordPress_ConfigurationWizard_Wizard {
 	}
 
 	/**
-	 * Returns the current step based off a query variable 'step'.
-	 * 
-	 * If no query variable found, returns 0 ( the starting array key )
-	 * 
-	 * @access public
-	 * @return int
-	 */
-	public function get_current_step() {
-		if ( !isset( $this->current_step ) )
-			$this->current_step = ( filter_has_var( INPUT_GET, 'step' ) ? filter_input( INPUT_GET, 'step', FILTER_VALIDATE_INT ) : 0 );
-
-		return $this->current_step;
-	}
-
-	/**
-	 * Returns a bool if this wizard has another step
-	 * after the current one.
-	 * 
-	 * @access public
-	 * @return bool
-	 */
-	public function has_next_step() {
-		$current_step = $this->get_current_step();
-
-		$next_step = ++$current_step;
-
-		return ( array_key_exists( $next_step, $this->steps ) );
-	}
-
-	/**
-	 * Returns the next step number.  Relates the array key for all
-	 * steps registered.
-	 * 
-	 * @access public
-	 * @return int
-	 */
-	public function get_next_step() {
-		$current_step = $this->get_current_step();
-		return++$current_step;
-	}
-
-	/**
-	 * Returns a bool if this wizard has a previous step
-	 * before the current one.
-	 * 
-	 * @access public
-	 * @return bool
-	 */
-	public function has_previous_step() {
-		$current_step = $this->get_current_step();
-
-		$previous_step = --$current_step;
-
-		return ( array_key_exists( $previous_step, $this->steps ) );
-	}
-
-	/**
-	 * Returns the previous step number. Relates to the array key for all
-	 * steps registered.
-	 * 
-	 * @access public
-	 * @return int
-	 */
-	public function get_previous_step() {
-		$current_step = $this->get_current_step();
-		return--$current_step;
-	}
-
-	/**
 	 * Returns the total number of steps registered with this wizard.
 	 * 
 	 * @access public
@@ -259,18 +190,4 @@ class Pronamic_WordPress_ConfigurationWizard_Wizard {
 	public function get_total_steps() {
 		return count( $this->steps );
 	}
-
-	/**
-	 * Returns the current url the form is on. Perhaps a better
-	 * solution is needed for this.
-	 * 
-	 * @access public
-	 * @return string
-	 */
-	public function get_current_url() {
-		$host = ( filter_has_var( INPUT_SERVER, 'HTTPS' ) ? 'https://' : 'http://' );
-
-		return $host . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-	}
-
 }
