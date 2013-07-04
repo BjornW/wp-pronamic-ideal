@@ -138,8 +138,8 @@ class Pronamic_WordPress_ConfigurationWizard_Wizard {
 		<form method="post">
 			<div class="pronamic_configuration_wizard_holder">
 				<ul class="pronamic_configuration_wizard_steps">
-					<?php foreach ( $this->get_all_steps() as $step ) : ?>
-						<li><?php echo $step->get_title(); ?></li>
+					<?php foreach ( $this->get_all_steps() as $step_id => $step ) : ?>
+						<li><span><?php echo ++$step_id; ?></span><?php echo $step->get_title(); ?></li>
 					<?php endforeach; ?>
 				</ul>
 				
