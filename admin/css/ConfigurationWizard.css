@@ -1,7 +1,87 @@
+/** ========================= **/
+/** == Pronamic Configuration Wizard Styling == **/
+/** ========================= **/
+
+/** ========================= **/
+/** == Pronamic Configuration Wizard Holder == **/
+/** ========================= **/
+.pronamic_configuration_wizard_holder {
+    
+}
+
+/** ========================= **/
+/** == Pronamic Configuration Steps Top == **/
+/** ========================= **/
+
+.pronamic_configuration_wizard_steps {
+    height:30px;
+    border:1px solid #ccc;
+    border-radius:10px;
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+}
+
+    .pronamic_configuration_wizard_steps li {
+        float:left;
+        line-height:30px;
+        padding-left:10px;
+        padding-right:10px;
+        border-right:1px solid #ccc;
+        font-style:italic;
+    }
+    
+        .pronamic_configuration_wizard_steps li span {
+            margin-right:10px;
+            border-radius:20px;
+            padding-right:4px;
+            padding-left:4px;
+            font-style:normal;
+            background:#f9461c;
+            color:#fff;
+        }
+    
+        .pronamic_configuration_wizard_step_item_current {
+            font-weight:bold;
+        }
+
+/** ========================= **/
+/** == Pronamic Configuration Steps == **/
+/** ========================= **/
 .pronamic_configuration_wizard_step {
-	display:none;
+    display:none;
 }
 
 .pronamic_configuration_wizard_current_step {
-	display:block;
+    display:block;
+}
+
+.pronamic_configuration_wizard_step_title {
+    display:block;
+}
+
+.pronamic_configuration_wizard_step_setting {
+    margin-top:10px;
+}
+
+/** ========================= **/
+/** == Pronamic Configuration Buttons == **/
+/** ========================= **/
+.pronamic_configuration_wizard_next_step_button,
+.pronamic_configuration_wizard_previous_step_button {
+    height:25px;
+    border:1px solid #ccc;
+    border-radius:10px;
+    padding:5px;
+    line-height:25px;
+    margin-right:10px;
+    margin-top:10px;
+    text-decoration:none;
+}
+
+.pronamic_configuration_wizard_next_step_button {
+    float:right;
+}
+
+.pronamic_configuration_wizard_previous_step_button {
+    float:left;
 }
