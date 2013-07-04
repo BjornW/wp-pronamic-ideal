@@ -169,12 +169,8 @@ class Pronamic_WordPress_ConfigurationWizard_Wizard {
 				<?php endforeach; ?>
 
 				<div class="pronamic_configuration_wizard_navigation">
-					<?php if ( $this->has_previous_step() ) : ?>
-						<a class="pronamic_configuration_wizard_previous_step_button" href="#"><?php _e( 'Previous Step', 'pronamic_ideal' ); ?></a>
-					<?php endif; ?>
-					<?php if ( $this->has_next_step() ) : ?>
-						<a class="pronamic_configuration_wizard_next_step_button" href="#"><?php _e( 'Next Step', 'pronamic_ideal' ); ?></a>
-					<?php endif; ?>
+					<a class="pronamic_configuration_wizard_previous_step_button" href="#"><?php _e( 'Previous Step', 'pronamic_ideal' ); ?></a>
+					<a class="pronamic_configuration_wizard_next_step_button" href="#"><?php _e( 'Next Step', 'pronamic_ideal' ); ?></a>
 				</div>
 			</div>
 		</form>
